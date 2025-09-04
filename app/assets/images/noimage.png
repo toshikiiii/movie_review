@@ -1,0 +1,1 @@
+<%= image_tag "https://www.shoshinsha-design.com/wp-content/uploads/2020/05/noimage-1-760x460.png", alt: "no image" %>

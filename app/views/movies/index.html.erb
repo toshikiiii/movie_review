@@ -1,0 +1,40 @@
+<h2>映画一覧</h2>
+
+<% if @movies.any? %>
+  <div style="margin: 8px 0 16px;">
+    並び替え:
+    <%= link_to "公開年順", movies_path(sort: "release"), class: "btn btn--ghost btn--xs" %>
+    <%= link_to "評価順",   movies_path(sort: "rating"),  class: "btn btn--ghost btn--xs" %>
+    <%= link_to "名前順",   movies_path(sort: "title"),   class: "btn btn--ghost btn--xs" %>
+  </div>
+
+  <div class="cards">
+    <% @movies.each do |m| %>
+      <div class="card">
+        <%= link_to m do %>
+          <% if m.poster.attached? %>
+            <%= image_tag m.poster, alt: m.title, class: "card__poster" %>
+          <% else %>
+            <%= image_tag "noimage.png", alt: "no image", class: "card__poster" %>
+          <% end %>
+        <% end %>
+
+        <h3 style="margin:8px 0;"><%= link_to m.title, m %></h3>
+        <p class="meta">公開年: <%= m.release_year || "-" %></p>
+        <p class="meta">平均評価: <%= number_with_precision(m.avg_rating, precision: 1) %> / 5.0</p>
+
+        <% if m.genres.any? %>
+          <div class="badges">
+            <% m.genres.each do |g| %>
+              <span class="badge"><%= g.name %></span>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <%= paginate @movies %>
+<% else %>
+  <p>該当する映画がありません。</p>
+<% end %>

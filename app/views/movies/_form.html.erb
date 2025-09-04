@@ -1,0 +1,33 @@
+<%= form_with model: @movie, local: true, html: { multipart: true } do |f| %>
+  <div>
+    <%= f.label :title, "タイトル" %><br>
+    <%= f.text_field :title %>
+  </div>
+
+  <div>
+    <%= f.label :description, "説明" %><br>
+    <%= f.text_area :description, rows: 5 %>
+  </div>
+
+  <div>
+    <%= f.label :release_year, "公開年" %><br>
+    <%= f.number_field :release_year %>
+  </div>
+
+  <div>
+    <%= f.label :poster, "ポスター画像" %><br>
+    <%= f.file_field :poster %>
+    <% if @movie.poster.attached? %>
+      <div style="margin-top:8px;"><%= image_tag @movie.poster, style: "max-width:160px; height:auto;" %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= f.label :genre_ids, "ジャンル（複数可）" %><br>
+    <%= f.collection_check_boxes :genre_ids, Genre.all, :id, :name do |b| %>
+      <label style="margin-right:12px;"><%= b.check_box %> <%= b.text %></label>
+    <% end %>
+  </div>
+
+  <%= f.submit @movie.new_record? ? "登録" : "更新" %>
+<% end %>

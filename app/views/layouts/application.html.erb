@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cinemarks</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+<header class="navbar">
+  <div class="container navbar-row">
+    <!-- 左：ロゴ + 検索 -->
+    <div class="left-pack">
+      <h1 class="brand"><%= link_to "Cinemarks", root_path, class: "brand__link" %></h1>
+
+      <%= form_with url: search_movies_path, method: :get, local: true,
+            html: { class: "searchbar" } do |f| %>
+        <div class="field-inline">
+          <%= f.label :title, "タイトル", class: "sr-only" %>
+          <%= f.text_field :title, value: params[:title], class: "input", placeholder: "タイトル" %>
+        </div>
+        <div class="field-inline">
+          <%= f.label :genre_id, "ジャンル", class: "sr-only" %>
+          <%= select_tag :genre_id,
+                options_from_collection_for_select(Genre.order(:name), :id, :name, params[:genre_id]),
+                include_blank: "すべて", class: "select" %>
+        </div>
+        <%= f.submit "検索", class: "btn btn--ghost btn--sm" %>
+      <% end %>
+    </div>
+
+    <!-- 右：管理リンク + ユーザー -->
+    <nav class="right-pack">
+      <% if logged_in? && current_user.admin? %>
+        <%= link_to "映画を登録", new_movie_path, class: "btn btn--ghost btn--sm" %>
+        <%= link_to "ジャンル管理", genres_path,  class: "btn btn--ghost btn--sm" %>
+      <% end %>
+
+      <% if logged_in? %>
+        <% if current_user.avatar&.attached? %>
+          <%= link_to user_path(current_user) do %>
+            <%= image_tag url_for(current_user.avatar), alt: current_user.name, class: "avatar" %>
+          <% end %>
+        <% end %>
+        <span><%= current_user.name %></span>
+        <%= link_to "プロフィール編集", edit_account_path, class: "btn btn--ghost btn--sm" %>
+        <%= button_to "ログアウト", logout_path, method: :delete,
+              form: { style: "display:inline" }, class: "btn btn--ghost btn--sm" %>
+      <% else %>
+        <%= link_to "サインアップ", signup_path, class: "btn btn--primary btn--sm" %>
+        <%= link_to "ログイン",   login_path,  class: "btn btn--ghost btn--sm" %>
+      <% end %>
+    </nav>
+  </div>
+</header>
+
+  <div class="container">
+    <% if notice %><div class="flash flash--notice"><%= notice %></div><% end %>
+    <% if alert  %><div class="flash flash--alert"><%= alert  %></div><% end %>
+
+    <%= yield %>
+  </div>
+</body>
+</html>

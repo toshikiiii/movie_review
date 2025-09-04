@@ -1,0 +1,22 @@
+<h2>ジャンル一覧</h2>
+
+<p><%= link_to "新規追加", new_genre_path %></p>
+
+<% if @genres.any? %>
+  <ul>
+    <% @genres.each do |g| %>
+      <li>
+        <%= g.name %>
+        <span style="margin-left:8px;">
+          <%= link_to "編集", edit_genre_path(g) %> |
+          <%= button_to "削除", genre_path(g),
+                method: :delete,
+                data: { turbo_confirm: "本当に削除しますか？" },
+                form: { style: "display:inline" } %>
+        </span>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>ジャンルがありません。</p>
+<% end %>

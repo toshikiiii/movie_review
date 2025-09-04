@@ -1,0 +1,24 @@
+ja:
+  activerecord:
+    models:
+      user: ユーザー
+    attributes:
+      user:
+        name: 名前
+        email: メールアドレス
+        password: パスワード
+        password_confirmation: パスワード確認
+
+  errors:
+    format: "%{attribute}%{message}"
+    messages:
+      blank: "を入力してください"
+      taken: "はすでに登録されています"
+      too_short: "は%{count}文字以上で入力してください"
+      confirmation: "が一致しません"
+
+  support:
+    array:
+      words_connector: "、"       # A、B
+      two_words_connector: "、"   # A、B
+      last_word_connector: "、"   # A、B、C

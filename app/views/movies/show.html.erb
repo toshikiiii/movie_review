@@ -1,0 +1,73 @@
+<h2><%= @movie.title %></h2>
+
+<% if @movie.poster.attached? %>
+  <%= image_tag @movie.poster, alt: @movie.title, class: "card__poster", style: "max-width:260px" %>
+<% end %>
+
+<p class="meta">公開年: <%= @movie.release_year || "-" %></p>
+<p class="meta">平均評価: <%= number_with_precision(@movie.avg_rating, precision: 1) %> / 5.0</p>
+
+<% if @movie.genres.any? %>
+  <div class="badges" style="margin-bottom:8px;">
+    <% @movie.genres.each do |g| %>
+      <span class="badge"><%= g.name %></span>
+    <% end %>
+  </div>
+<% end %>
+
+<p><%= @movie.description %></p>
+
+<% if logged_in? && current_user.admin? %>
+  <div style="margin:10px 0;">
+    <%= link_to "編集", edit_movie_path(@movie), class: "btn btn--ghost btn--sm" %>
+    <%= link_to "削除", movie_path(@movie),
+          data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },
+          class: "btn btn--danger btn--sm" %>
+  </div>
+<% end %>
+
+<hr>
+
+<h3>レビューを書く</h3>
+<%= form_with model: [@movie, @review], local: true do |f| %>
+  <div class="field">
+    <%= f.label :rating, "評価(1.0-5.0)", class: "label" %>
+    <%= f.number_field :rating, in: 1.0..5.0, step: 0.1, class: "input" %>
+  </div>
+  <div class="field">
+    <%= f.label :comment, "コメント", class: "label" %>
+    <%= f.text_area :comment, rows: 3, class: "textarea" %>
+  </div>
+  <%= f.submit "投稿", class: "btn btn--primary" %>
+<% end %>
+
+<hr>
+
+<h3>レビュー一覧</h3>
+<% if @movie.reviews.any? %>
+  <% @movie.reviews.order(created_at: :desc).each do |r| %>
+    <div class="review">
+      <% if r.user&.avatar&.attached? %>
+        <%= image_tag url_for(r.user.avatar), alt: r.user.name, class: "review__avatar" %>
+      <% end %>
+
+      <div class="review__body">
+        <strong><%= link_to r.user.name, user_path(r.user) %></strong>：
+        <%= number_with_precision(r.rating, precision: 1) %> / 5.0<br>
+        <%= simple_format(h(r.comment)) %><br>
+        <small><%= r.created_at.strftime("%Y-%m-%d %H:%M") %></small>
+
+        <% if logged_in? && (current_user.admin? || r.user_id == current_user.id) %>
+          <div style="margin-top:6px; display:inline-flex; gap:8px;">
+            <%= link_to "編集", edit_movie_review_path(r.movie, r), class: "btn btn--ghost btn--xs" %>
+            <%= link_to "削除", movie_review_path(r.movie, r),
+                  data: { turbo_method: :delete, turbo_confirm: "このレビューを削除しますか？" },
+                  class: "btn btn--danger btn--xs" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <p>レビューはまだありません。</p>
+<% end %>

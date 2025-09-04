@@ -1,0 +1,25 @@
+<h2>アカウント作成</h2>
+
+<%= form_with model: @user, url: users_path, local: true do |f| %>
+  <div>
+    <%= f.label :name, "名前" %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div>
+    <%= f.label :email, "メールアドレス" %><br>
+    <%= f.email_field :email %>
+  </div>
+  <div>
+    <%= f.label :password, "パスワード（6文字以上）" %><br>
+    <%= f.password_field :password %>
+  </div>
+  <div>
+    <%= f.label :password_confirmation, "パスワード（確認）" %><br>
+    <%= f.password_field :password_confirmation %>
+  </div>
+  <div>
+    <%= f.label :avatar, "プロフィール画像" %>
+    <%= f.file_field :avatar %>
+  </div>
+  <%= f.submit "登録" %>
+<% end %>

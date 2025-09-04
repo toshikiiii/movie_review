@@ -1,0 +1,8 @@
+<%= form_with model: @genre, local: true do |f| %>
+  <div>
+    <%= f.label :name, "ジャンル名" %><br>
+    <%= f.text_field :name %>
+  </div>
+
+  <%= f.submit @genre.new_record? ? "追加する" : "更新する" %>
+<% end %>

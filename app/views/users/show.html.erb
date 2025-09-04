@@ -1,0 +1,28 @@
+<h1><%= @user.name %> さんのプロフィール</h1>
+
+<% if @user.avatar&.attached? %>
+  <%= image_tag url_for(@user.avatar), alt: @user.name,
+        style: "width:120px; height:120px; object-fit:cover; border-radius:50%;" %>
+<% end %>
+
+<div style="margin-top:12px;">
+  <h3>自己紹介</h3>
+  <div><%= @user.bio.present? ? simple_format(@user.bio) : "未設定" %></div>
+</div>
+
+<hr>
+<h3><%= @user.name %> さんのレビュー</h3>
+<% if defined?(@reviews) && @reviews.any? %>
+  <ul>
+    <% @reviews.each do |r| %>
+      <li style="margin-bottom:8px;">
+        <strong><%= link_to r.movie.title, movie_path(r.movie) %></strong>
+        （<%= r.rating %> / 5）<br>
+        <%= r.comment %><br>
+        <small><%= r.created_at.strftime("%Y-%m-%d %H:%M") %></small>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>レビューはまだありません。</p>
+<% end %>
