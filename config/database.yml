@@ -1,41 +1,34 @@
-# SQLite. Versions 3.8.0 and up are supported.
-#   gem install sqlite3
-#
-#   Ensure the SQLite 3 gem is defined in your Gemfile
-#   gem "sqlite3"
-#
+# SQLite (dev / test)
 default: &default
   adapter: sqlite3
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
   timeout: 5000
 
 development:
   <<: *default
   database: storage/development.sqlite3
 
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
-# Do not set this db to the same as development or production.
 test:
   <<: *default
   database: storage/test.sqlite3
 
-
-# Store production database in the storage/ directory, which by default
-# is mounted as a persistent Docker volume in config/deploy.yml.
+# ===== Production: PostgreSQL on Render =====
 production:
   primary:
-    <<: *default
-    database: storage/production.sqlite3
+    # Render の PostgreSQL の接続URLを使う（例: postgres://...）
+    url: <%= ENV.fetch("DATABASE_URL") %>
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
+
+  # solid_cache / solid_queue / solid_cable も同じDBを使わせる
+  # （必要なら別DB用の環境変数を後で用意）
   cache:
-    <<: *default
-    database: storage/production_cache.sqlite3
+    url: <%= ENV.fetch("SOLID_CACHE_DATABASE_URL", ENV["DATABASE_URL"]) %>
     migrations_paths: db/cache_migrate
+
   queue:
-    <<: *default
-    database: storage/production_queue.sqlite3
+    url: <%= ENV.fetch("SOLID_QUEUE_DATABASE_URL", ENV["DATABASE_URL"]) %>
     migrations_paths: db/queue_migrate
+
   cable:
-    <<: *default
-    database: storage/production_cable.sqlite3
+    url: <%= ENV.fetch("SOLID_CABLE_DATABASE_URL", ENV["DATABASE_URL"]) %>
     migrations_paths: db/cable_migrate
