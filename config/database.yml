@@ -14,10 +14,14 @@ test:
 
 # ===== Production: PostgreSQL on Render =====
 production:
-  primary:
-    # Render の PostgreSQL の接続URLを使う（例: postgres://...）
-    url: <%= ENV.fetch("DATABASE_URL") %>
-    pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
+  url: <%= ENV["DATABASE_URL"] %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
+  timeout: 5000
+  migrations_paths:
+    - db/migrate
+    - db/queue_migrate
+    - db/cache_migrate
+    - db/cable_migrate
 
   # solid_cache / solid_queue / solid_cable も同じDBを使わせる
   # （必要なら別DB用の環境変数を後で用意）
