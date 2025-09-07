@@ -1,12 +1,11 @@
-# seeds.rb
-genres = %w[アクション SF コメディ ホラー サスペンス クライム スリラー ロマンス ミュージカル]
-genre_map = genres.to_h { |name| [name, Genre.find_or_create_by!(name: name)] }
+# db/seeds.rb
+admin_email = "toshiki.1018@icloud.com"
 
-
-User.find_or_create_by!(email: admin_email) do |u|
+admin = User.find_or_create_by!(email: admin_email) do |u|
   u.name     = "管理者ユーザー"
   u.password = "password"
-  u.admin    = true
 end
 
-puts "[seed] admin user ensured: #{admin_email}"
+admin.update!(admin: true)
+
+puts "[seed] Admin user ready: #{admin_email}"
