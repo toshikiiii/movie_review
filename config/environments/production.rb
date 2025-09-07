@@ -2,55 +2,49 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
-  # 本番はコードをリロードしない
+  # --- 基本 ---
   config.enable_reloading = false
   config.eager_load = true
-
-  # エラー詳細は非表示
   config.consider_all_requests_local = false
 
-  # フラグメントキャッシュ等を有効化
+  # --- キャッシュ / アセット ---
   config.action_controller.perform_caching = true
-
-  # アセットに長期キャッシュ
   config.public_file_server.headers = { "cache-control" => "public, max-age=#{1.year.to_i}" }
+  # Solid Cacheは使わない（DB不要）
+  config.cache_store = :memory_store
 
-  # Active Storage はローカル（Free運用の簡易設定）
+  # --- Active Storage ---
+  # Free運用の簡易設定（永続化はしない点に注意）
   config.active_storage.service = :local
 
-  # 逆プロキシ越しのSSL前提
+  # --- SSL ---
   config.assume_ssl = true
   config.force_ssl  = true
+  # 例：ヘルスチェックのHTTP→HTTPSリダイレクトを避けたければ下を有効化
+  # config.ssl_options = { redirect: { exclude: ->(r) { r.path == "/up" } } }
 
-  # ログ
-  config.log_tags = [:request_id]
-  config.logger   = ActiveSupport::TaggedLogging.logger(STDOUT)
+  # --- ログ ---
+  config.log_tags  = [:request_id]
+  config.logger    = ActiveSupport::TaggedLogging.logger(STDOUT)
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
   config.silence_healthcheck_path = "/up"
   config.active_support.report_deprecations = false
 
-  # Solid Cache は使わずメモリキャッシュに（DB不要）
-  config.cache_store = :memory_store
-
-  # Active Job は Solid Queue を使わず :async に（DB不要）
+  # --- Active Job ---
+  # Solid Queueは使わず非同期(:async)でOK（単一プロセス前提）
   config.active_job.queue_adapter = :async
-  # config.solid_queue.connects_to は不要なので削除
 
-  # Action Mailer（必要ならホストをあなたのURLに）
+  # --- Action Mailer（必要ならホストを書き換え）---
   config.action_mailer.default_url_options = {
     host: ENV.fetch("APP_HOST", "cinemarks.onrender.com"),
     protocol: "https"
   }
 
-  # i18n フォールバック
+  # --- I18n / DBダンプなど ---
   config.i18n.fallbacks = true
-
-  # マイグレーション後にschema.rbをダンプしない
   config.active_record.dump_schema_after_migration = false
-
-  # inspect 出力を軽量に
   config.active_record.attributes_for_inspect = [:id]
 
-  # Render のドメインを許可
+  # --- Host許可 ---
   config.hosts << ".onrender.com"
 end
