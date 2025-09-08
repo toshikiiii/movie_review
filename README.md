@@ -6,4 +6,7 @@
 ## 2.サービス画像
 ![サービス画面](https://raw.githubusercontent.com/toshikiiii/movie_review/main/スクリーンショット%202025-09-08%2020.06.42.png)
 
+##3.サービスのURL
+https://cinemarks.onrender.com/
+
 
