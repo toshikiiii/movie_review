@@ -43,4 +43,5 @@ end
 group :production do
   # 本番は PostgreSQL
   gem "pg", "~> 1.5"
+  gem "aws-sdk-s3", require: false
 end

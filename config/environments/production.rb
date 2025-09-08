@@ -47,4 +47,6 @@ Rails.application.configure do
 
   # --- Host許可 ---
   config.hosts << ".onrender.com"
+
+  config.active_storage.service = :amazon
 end
