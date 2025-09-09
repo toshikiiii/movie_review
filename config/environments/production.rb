@@ -13,10 +13,6 @@ Rails.application.configure do
   # Solid Cacheは使わない（DB不要）
   config.cache_store = :memory_store
 
-  # --- Active Storage ---
-  # Free運用の簡易設定（永続化はしない点に注意）
-  config.active_storage.service = :local
-
   # --- SSL ---
   config.assume_ssl = true
   config.force_ssl  = true
