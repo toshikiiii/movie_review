@@ -35,6 +35,7 @@ https://cinemarks.onrender.com/
 - 画像アップロード: AWS S3 (ActiveStorage)
 - デプロイ: Render
 - 認証: has_secure_password（bcrypt）
+- バージョン管理: Git / Github
 
 ## 6.ER図
 下記のようなテーブル設計で、ユーザーが映画にレビューを投稿し、ジャンルと紐づけられる仕組みになっています。
