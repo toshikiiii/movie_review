@@ -9,6 +9,7 @@
 
 ## 3.サービスのURL・開発ユーザーアカウント
 https://cinemarks.onrender.com/
+
 メールアドレス：toshiki.1018@icloud.com 
-パスワード：
+パスワード：robin106905
 
