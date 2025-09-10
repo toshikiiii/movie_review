@@ -41,3 +41,6 @@ https://cinemarks.onrender.com/
 ![サービス画面](https://github.com/toshikiiii/movie_review/blob/main/%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%83%E3%83%88%202025-09-10%2018.28.37.png?raw=true)
 
 ## 7.今後の展望
+- 直近の修正予定:レスポンシブ対応
+- 短期目標:制作監督、出演俳優からも検索、表示出来るように。
+- 長期目標:アカウントのフォロー、タイムラインの表示。
