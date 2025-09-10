@@ -13,3 +13,18 @@ https://cinemarks.onrender.com/
 メールアドレス：toshiki.1018@icloud.com 
   パスワード：robin106905
 
+## 4.機能
+
+## 5.使用技術
+- フロントエンド: HTML / CSS / JavaScript
+- バックエンド: Ruby 3.3.3 / Rails 8.0.2.1
+- DB:
+  - Development / Test: SQLite
+  - Production: PostgreSQL (Render)
+- 画像アップロード: AWS S3 (ActiveStorage)
+- デプロイ: Render
+- 認証: has_secure_password（bcrypt）
+
+## 6.ER図
+
+## 7.今後の展望
